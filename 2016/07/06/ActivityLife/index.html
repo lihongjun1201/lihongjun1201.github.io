@@ -3,18 +3,89 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tags | To be a better coder.--Allen Lee</title>
+    <title>初探Activity生命周期 | To be a better coder.--Allen Lee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Talk is cheap,show me your codes.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+    <meta name="description" content="1. 理解几个重要的生命周期回调函数android activity的生命周期是必须深入理解和掌握的，才能更好的开发出性能优良的app。
+
+
+
+回调函数
+适合处理的任务
+
+
+
+
+onCreate（）
+初始化UI，及其他组件
+
+
+onStart（）
+很快调用完进入Resume状态
+
+
+onResume（）
+Activity完全可见，可交互，有焦点
+
+
+onPause（）
+Activity被遮挡但可视">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初探Activity生命周期">
+<meta property="og:url" content="http://yoursite.com/2016/07/06/ActivityLife/index.html">
 <meta property="og:site_name" content="To be a better coder.--Allen Lee">
-<meta property="og:description" content="Talk is cheap,show me your codes.">
-<meta property="og:updated_time" content="2016-06-08T06:20:02.496Z">
+<meta property="og:description" content="1. 理解几个重要的生命周期回调函数android activity的生命周期是必须深入理解和掌握的，才能更好的开发出性能优良的app。
+
+
+
+回调函数
+适合处理的任务
+
+
+
+
+onCreate（）
+初始化UI，及其他组件
+
+
+onStart（）
+很快调用完进入Resume状态
+
+
+onResume（）
+Activity完全可见，可交互，有焦点
+
+
+onPause（）
+Activity被遮挡但可视">
+<meta property="og:image" content="http://yoursite.com/2016/07/06/ActivityLife/life_tower.png">
+<meta property="og:updated_time" content="2016-07-06T13:59:38.901Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tags">
-<meta name="twitter:description" content="Talk is cheap,show me your codes.">
+<meta name="twitter:title" content="初探Activity生命周期">
+<meta name="twitter:description" content="1. 理解几个重要的生命周期回调函数android activity的生命周期是必须深入理解和掌握的，才能更好的开发出性能优良的app。
+
+
+
+回调函数
+适合处理的任务
+
+
+
+
+onCreate（）
+初始化UI，及其他组件
+
+
+onStart（）
+很快调用完进入Resume状态
+
+
+onResume（）
+Activity完全可见，可交互，有焦点
+
+
+onPause（）
+Activity被遮挡但可视">
+<meta name="twitter:image" content="http://yoursite.com/2016/07/06/ActivityLife/life_tower.png">
     
 
     
@@ -179,16 +250,254 @@
 </aside>
 
             
-            <section id="main"><section class="layout-wrap">
-    <div class="layout-title">
-        <span>Tags</span>
-    </div>
-    <div class="layout-wrap-inner tag-cloud">
+            <section id="main"><article id="post-ActivityLife" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-            <a href="/tags/MySql/" style="font-size: 14px;">MySql</a> <a href="/tags/android-activity/" style="font-size: 14px;">android activity</a> <a href="/tags/apche/" style="font-size: 14px;">apche</a> <a href="/tags/jdbc/" style="font-size: 14px;">jdbc</a> <a href="/tags/xml/" style="font-size: 14px;">xml</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a>
         
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            初探Activity生命周期
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/07/06/ActivityLife/">
+            <time datetime="2016-07-06T12:40:31.000Z" itemprop="datePublished">2016-07-06</time>
+        </a>
     </div>
-</section></section>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android-activity/">android activity</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="1-理解几个重要的生命周期回调函数"><a href="#1-理解几个重要的生命周期回调函数" class="headerlink" title="1. 理解几个重要的生命周期回调函数"></a>1. 理解几个重要的生命周期回调函数</h2><p>android activity的生命周期是必须深入理解和掌握的，才能更好的开发出性能优良的app。</p>
+<table>
+<thead>
+<tr>
+<th>回调函数</th>
+<th>适合处理的任务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>onCreate（）</td>
+<td>初始化UI，及其他组件</td>
+</tr>
+<tr>
+<td>onStart（）</td>
+<td>很快调用完进入Resume状态</td>
+</tr>
+<tr>
+<td>onResume（）</td>
+<td>Activity完全可见，可交互，有焦点</td>
+</tr>
+<tr>
+<td>onPause（）</td>
+<td>Activity被遮挡但可视，不可交互</td>
+</tr>
+<tr>
+<td>onStop（）</td>
+<td>完全不可见，失去焦点，如进入别的Activity或APP</td>
+</tr>
+<tr>
+<td>onDestroy（）</td>
+<td>资源回收,一般不用重写，大部分清理工作应该在onPause（） &amp; onStop（）中完成</td>
+</tr>
+<tr>
+<td>onRestart（）</td>
+<td>从Pause –&gt; restart –&gt; start –&gt; resume</td>
+</tr>
+<tr>
+<td>finish（）</td>
+<td>自己结束    </td>
+</tr>
+</tbody>
+</table>
+<p>将安卓各个生命周期理解为爬金字塔，可以很形象的记忆并理解。</p>
+<img src="/2016/07/06/ActivityLife/life_tower.png" alt="Activity生命周期金字塔" title="Activity生命周期金字塔">
+<h2 id="2-Activity-的暂停与继续"><a href="#2-Activity-的暂停与继续" class="headerlink" title="2. Activity 的暂停与继续"></a>2. Activity 的暂停与继续</h2><p>其中三个回调函数可以长时间停留，与用户产生交互</p>
+<ul>
+<li>onResume（）</li>
+<li>onStop（）</li>
+<li>onPause（）</li>
+</ul>
+<p>当一个Activity被部分遮挡，如弹出对话框，此时则会进入Pause状态。</p>
+<p>如果被完全遮挡，则进入stop状态。</p>
+<p>onPause（）状态通常需要处理如下任务：</p>
+<ul>
+<li>停止一些消耗cpu的任务，如播放动画等</li>
+<li>保存一些需要保存的数据</li>
+<li>释放系统资源，如broadcast receivers ，传感器的引用（如摄像头，GPS，蓝牙等）一些耗电多的资源。</li>
+</ul>
+<p><strong>注意：  在onPause（）中不要进行耗时任务，如数据库操作，这样会影响UI组件的显示效果。在onStop中处理耗时任务较为合适</strong></p>
+<h2 id="3-Activity的-停止与重启"><a href="#3-Activity的-停止与重启" class="headerlink" title="3. Activity的 停止与重启"></a>3. Activity的 停止与重启</h2><h3 id="几个典型的Stop场景"><a href="#几个典型的Stop场景" class="headerlink" title="几个典型的Stop场景"></a>几个典型的Stop场景</h3><ul>
+<li><p>用户打开最近使用的APP，选择使用其他APP，此时便进入stop状态。</p>
+</li>
+<li><p>从当前Activity跳转到另外一个Activity，则前一个进入stop状态，如果用户按back键返回，则重新restart。</p>
+</li>
+</ul>
+<p>Start / ReStart Activity<br>当Activity从后台stop变为前台可见时，系统回调onRestart（），onStart（）方法。</p>
+<p><strong>注意：由于系统会保留处于Stop截断的Activity实例各种状态，一般的APP没太多必要重写 onRestart</strong></p>
+<h2 id="4-重建与恢复Activity"><a href="#4-重建与恢复Activity" class="headerlink" title="4. 重建与恢复Activity"></a>4. 重建与恢复Activity</h2><h3 id="销毁"><a href="#销毁" class="headerlink" title="销毁"></a>销毁</h3><p>当系统因为内存过低等其他因素销毁了Activity（非正常销毁），尽管Activity Instance实例被回收，但是其状态被系统保存下来，以备恢复之需。</p>
+<p>注意：旋转屏幕也会销毁与重建Activity，因为可能需要加载不同的适配资源。</p>
+<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><p>Instance State存在一个key-value键值对集合中，即 Bundle对象。</p>
+<p><strong>注意：所有拥有Id的 View都会自动保存用户的输入，如edittext等。所以不必为此担心。</strong></p>
+<hr>
+<p>如果要存储Acivity的额外信息数据到bundle中，则需要重写onSaveInstanceState() 回调函数。</p>
+<p>当Activity销毁时系统会自动传入一个bundle对象负责存储数据，当你需要用到之前的状态来重建Activity时，系统会传入刚才保存的bunlde对象到onCreate（） &amp; onRestoreInstanceState() 方法中。</p>
+<img src="/2016/07/06/ActivityLife/restore.png" alt="恢复与重建过程示意" title="恢复与重建过程示意">
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="http://yoursite.com/2016/07/06/ActivityLife/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://yoursite.com/2016/07/06/ActivityLife/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016/06/30/JDBC要点记录/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">JDBC要点记录</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/07/06/ActivityLife/" data-title="初探Activity生命周期" data-url="http://yoursite.com/2016/07/06/ActivityLife/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
             
                 <aside id="sidebar">
    

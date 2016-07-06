@@ -149,11 +149,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                3
+                4
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                5
+                6
                 <span>标签</span>
             </div>
         </div>
@@ -179,6 +179,195 @@
 
             
             <section id="main">
+    <article id="post-ActivityLife" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/07/06/ActivityLife/">初探Activity生命周期</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/07/06/ActivityLife/">
+            <time datetime="2016-07-06T12:40:31.000Z" itemprop="datePublished">2016-07-06</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android-activity/">android activity</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="1-理解几个重要的生命周期回调函数"><a href="#1-理解几个重要的生命周期回调函数" class="headerlink" title="1. 理解几个重要的生命周期回调函数"></a>1. 理解几个重要的生命周期回调函数</h2><p>android activity的生命周期是必须深入理解和掌握的，才能更好的开发出性能优良的app。</p>
+<table>
+<thead>
+<tr>
+<th>回调函数</th>
+<th>适合处理的任务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>onCreate（）</td>
+<td>初始化UI，及其他组件</td>
+</tr>
+<tr>
+<td>onStart（）</td>
+<td>很快调用完进入Resume状态</td>
+</tr>
+<tr>
+<td>onResume（）</td>
+<td>Activity完全可见，可交互，有焦点</td>
+</tr>
+<tr>
+<td>onPause（）</td>
+<td>Activity被遮挡但可视，不可交互</td>
+</tr>
+<tr>
+<td>onStop（）</td>
+<td>完全不可见，失去焦点，如进入别的Activity或APP</td>
+</tr>
+<tr>
+<td>onDestroy（）</td>
+<td>资源回收,一般不用重写，大部分清理工作应该在onPause（） &amp; onStop（）中完成</td>
+</tr>
+<tr>
+<td>onRestart（）</td>
+<td>从Pause –&gt; restart –&gt; start –&gt; resume</td>
+</tr>
+<tr>
+<td>finish（）</td>
+<td>自己结束    </td>
+</tr>
+</tbody>
+</table>
+<p>将安卓各个生命周期理解为爬金字塔，可以很形象的记忆并理解。</p>
+<img src="/2016/07/06/ActivityLife/life_tower.png" alt="Activity生命周期金字塔" title="Activity生命周期金字塔">
+<h2 id="2-Activity-的暂停与继续"><a href="#2-Activity-的暂停与继续" class="headerlink" title="2. Activity 的暂停与继续"></a>2. Activity 的暂停与继续</h2><p>其中三个回调函数可以长时间停留，与用户产生交互</p>
+<ul>
+<li>onResume（）</li>
+<li>onStop（）</li>
+<li>onPause（）</li>
+</ul>
+<p>当一个Activity被部分遮挡，如弹出对话框，此时则会进入Pause状态。</p>
+<p>如果被完全遮挡，则进入stop状态。</p>
+<p>onPause（）状态通常需要处理如下任务：</p>
+<ul>
+<li>停止一些消耗cpu的任务，如播放动画等</li>
+<li>保存一些需要保存的数据</li>
+<li>释放系统资源，如broadcast receivers ，传感器的引用（如摄像头，GPS，蓝牙等）一些耗电多的资源。</li>
+</ul>
+<p><strong>注意：  在onPause（）中不要进行耗时任务，如数据库操作，这样会影响UI组件的显示效果。在onStop中处理耗时任务较为合适</strong></p>
+<h2 id="3-Activity的-停止与重启"><a href="#3-Activity的-停止与重启" class="headerlink" title="3. Activity的 停止与重启"></a>3. Activity的 停止与重启</h2><h3 id="几个典型的Stop场景"><a href="#几个典型的Stop场景" class="headerlink" title="几个典型的Stop场景"></a>几个典型的Stop场景</h3><ul>
+<li><p>用户打开最近使用的APP，选择使用其他APP，此时便进入stop状态。</p>
+</li>
+<li><p>从当前Activity跳转到另外一个Activity，则前一个进入stop状态，如果用户按back键返回，则重新restart。</p>
+</li>
+</ul>
+<p>Start / ReStart Activity<br>当Activity从后台stop变为前台可见时，系统回调onRestart（），onStart（）方法。</p>
+<p><strong>注意：由于系统会保留处于Stop截断的Activity实例各种状态，一般的APP没太多必要重写 onRestart</strong></p>
+<h2 id="4-重建与恢复Activity"><a href="#4-重建与恢复Activity" class="headerlink" title="4. 重建与恢复Activity"></a>4. 重建与恢复Activity</h2><h3 id="销毁"><a href="#销毁" class="headerlink" title="销毁"></a>销毁</h3><p>当系统因为内存过低等其他因素销毁了Activity（非正常销毁），尽管Activity Instance实例被回收，但是其状态被系统保存下来，以备恢复之需。</p>
+<p>注意：旋转屏幕也会销毁与重建Activity，因为可能需要加载不同的适配资源。</p>
+<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><p>Instance State存在一个key-value键值对集合中，即 Bundle对象。</p>
+<p><strong>注意：所有拥有Id的 View都会自动保存用户的输入，如edittext等。所以不必为此担心。</strong></p>
+<hr>
+<p>如果要存储Acivity的额外信息数据到bundle中，则需要重写onSaveInstanceState() 回调函数。</p>
+<p>当Activity销毁时系统会自动传入一个bundle对象负责存储数据，当你需要用到之前的状态来重建Activity时，系统会传入刚才保存的bunlde对象到onCreate（） &amp; onRestoreInstanceState() 方法中。</p>
+<img src="/2016/07/06/ActivityLife/restore.png" alt="恢复与重建过程示意" title="恢复与重建过程示意">
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="http://yoursite.com/2016/07/06/ActivityLife/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://yoursite.com/2016/07/06/ActivityLife/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-JDBC要点记录" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -223,7 +412,6 @@
             <blockquote>
 <p>概述：JDBC就是java定义的通用的数据库API。通过不同数据库驱动可以方便连接不同的数据库如mysql，oracle，sql server等。</p>
 </blockquote>
-<img src="/2016/06/30/JDBC要点记录/temp.png" alt="This is an example image" title="This is an example image">
 <hr>
 <h2 id="JDBC的使用"><a href="#JDBC的使用" class="headerlink" title="JDBC的使用"></a>JDBC的使用</h2><h3 id="1-导入第三方库"><a href="#1-导入第三方库" class="headerlink" title="1.导入第三方库"></a>1.导入第三方库</h3><p>需要导入相应的开发包，如使用MySql则导入<a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">mysql-connector-java-5.1.39.zip</a></p>
 <h3 id="2-获取Connnection"><a href="#2-获取Connnection" class="headerlink" title="2.获取Connnection"></a>2.获取Connnection</h3><p>有几种方式不同连接到数据库<br>可以采用将相应信息如数据库url ，数据库名，密码等信息写入property配置文件。</p>
@@ -245,7 +433,6 @@
 <p><a href="https://commons.apache.org/proper/commons-dbutils/examples.html" target="_blank" rel="external">apache jdbc dbutils</a> 官网给出了具体的使用示范。</p>
 <p>轻量小乔，方便快捷。可以将resaultset转化为JavaBean，list ，map 等各种数据类型。简化了不少工作。</p>
 <hr>
-<p><img src="/images/test.png" alt="测试图片"></p>
 
         
         </div>
@@ -361,7 +548,6 @@
 <li>xml在许多语言中都具有相同的接口和概念，如DOM，在javascript 和 java 中通用。</li>
 <li>通过Parser解析器处理xml文档</li>
 </ol>
-<p><img src="/images/test.png" alt="测试图片说明----01"></p>
 <h2 id="2-用途"><a href="#2-用途" class="headerlink" title="2. 用途"></a>2. 用途</h2><ol>
 <li>关键将XML理解为一颗DOM Tree，操作树数据结构即可。 </li>
 <li>常用于前端和后端数据传输（json，protobuf）。</li>
@@ -593,10 +779,29 @@
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2016/07/06/ActivityLife/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2016/07/06/ActivityLife/life_tower.png)" alt="初探Activity生命周期" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/07/06/ActivityLife/" class="title">初探Activity生命周期</a></p>
+                            <p class="item-date"><time datetime="2016-07-06T12:40:31.000Z" itemprop="datePublished">2016-07-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2016/06/30/JDBC要点记录/" class="thumbnail">
     
     
-        <span style="background-image:url(/2016/06/30/JDBC要点记录/temp.png)" alt="JDBC要点记录" class="thumbnail-image"></span>
+        <span class="thumbnail-image thumbnail-none"></span>
     
 </a>
 
@@ -615,7 +820,7 @@
                             <a href="/2016/06/15/XMLnotes/" class="thumbnail">
     
     
-        <span style="background-image:url(/images/test.png)" alt="XML摘要" class="thumbnail-image"></span>
+        <span class="thumbnail-image thumbnail-none"></span>
     
 </a>
 
@@ -656,7 +861,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -665,7 +870,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
@@ -674,7 +879,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySql/">MySql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/apche/">apche</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/">xml</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySql/">MySql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-activity/">android activity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/apche/">apche</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/">xml</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -683,7 +888,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/MySql/" style="font-size: 10px;">MySql</a> <a href="/tags/apche/" style="font-size: 10px;">apche</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+            <a href="/tags/MySql/" style="font-size: 10px;">MySql</a> <a href="/tags/android-activity/" style="font-size: 10px;">android activity</a> <a href="/tags/apche/" style="font-size: 10px;">apche</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
         </div>
     </div>
 
